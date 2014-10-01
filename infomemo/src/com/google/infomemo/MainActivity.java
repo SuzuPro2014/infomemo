@@ -35,7 +35,7 @@ public class MainActivity extends Activity {
 
         final ArrayAdapter <String> adapter = new ArrayAdapter <String> (this, android.R.layout.simple_expandable_list_item_1, fileList);
 
-        ListView fList = (ListView) findViewById(R.id.fileList);
+        ListView fList = (ListView) findViewById(R.id.infolist);
         fList.setAdapter(adapter);
 
         fList.setOnItemClickListener(

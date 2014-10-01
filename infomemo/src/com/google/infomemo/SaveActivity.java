@@ -25,6 +25,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,7 +44,7 @@ public class SaveActivity extends Activity implements LocationListener {
 
 		Time time = new Time("Asia/Tokyo");
 		time.setToNow();
-		date = time.year + "年" + (time.month + 1) + "月" + time.monthDay + "日" + time.hour + "時" + time.minute + "分" + time.second + "秒";
+		date = time.year + "年" + (time.month + 1) + "月" + time.monthDay + "日" + time.hour + "時" + time.minute + "分";
 		day.setText(date);
 
 
@@ -60,54 +61,57 @@ public class SaveActivity extends Activity implements LocationListener {
 		EditText filename = (EditText)findViewById(R.id.et_filename);
 		EditText etc = (EditText)findViewById(R.id.et_etc);
 
-		String file = filename.getText().toString() +  ".txt";
-		String etc2 = etc.getText().toString();
-
 		String message = "";
 
-		String inputData = "◆記録日時\r\n"+ date + "\r\n\r\n\r\n" + wifiData + gpsData + "◆備考\r\n" + etc2;
+		String file = filename.getText().toString();
 
-		String[] fileList = this.fileList();
+		if (file.isEmpty()) {
+			message = "ファイル名を入力して下さい";
+			Toast.makeText(getBaseContext(), message, Toast.LENGTH_LONG).show();
+		} else {
+			String file2 = file + ".txt";
+			String etc2 = etc.getText().toString();
 
-		boolean flg = false;
+			String inputData = "◆記録日時\r\n"+ date + "\r\n\r\n\r\n" + wifiData + gpsData + "◆備考\r\n" + etc2;
 
-		for (int i = 0; i < fileList.length; i++) {
-			if (file.equals(fileList[i])) {
-				flg = true;
+			String[] fileList = this.fileList();
+
+			boolean flg = false;
+
+			for (int i = 0; i < fileList.length; i++) {
+				if (file2.equals(fileList[i])) {
+					flg = true;
+				}
+			}
+			if (flg == false) {
+				try {
+				      FileOutputStream outStream = openFileOutput(file2, MODE_PRIVATE);
+				      OutputStreamWriter writer = new OutputStreamWriter(outStream);
+				      writer.write(inputData);
+				      writer.flush();
+				      writer.close();
+
+				      message = "保存しました"
+				      		+ "";
+				    } catch (FileNotFoundException e) {
+				      message = e.getMessage();
+				      e.printStackTrace();
+				    } catch (IOException e) {
+				      message = e.getMessage();
+				      e.printStackTrace();
+				    }
+
+				Toast.makeText(getBaseContext(), message, Toast.LENGTH_LONG).show();
+
+				Intent i = new Intent();
+				setResult(RESULT_OK, i);
+			    finish();
+
+			} else {
+				message = "そのファイル名は既に使われています";
+				Toast.makeText(getBaseContext(), message, Toast.LENGTH_LONG).show();
 			}
 		}
-
-		if (flg == false) {
-			try {
-			      FileOutputStream outStream = openFileOutput(file, MODE_PRIVATE);
-			      OutputStreamWriter writer = new OutputStreamWriter(outStream);
-			      writer.write(inputData);
-			      writer.flush();
-			      writer.close();
-
-			      message = "保存しました"
-			      		+ "";
-			    } catch (FileNotFoundException e) {
-			      message = e.getMessage();
-			      e.printStackTrace();
-			    } catch (IOException e) {
-			      message = e.getMessage();
-			      e.printStackTrace();
-			    }
-
-			Toast.makeText(getBaseContext(), message, Toast.LENGTH_LONG).show();
-
-			Intent i = new Intent();
-			setResult(RESULT_OK, i);
-		    finish();
-
-		} else {
-			message = "そのファイル名は既に使われています";
-			Toast.makeText(getBaseContext(), message, Toast.LENGTH_LONG).show();
-		}
-
-
-;
 
 	}
 
@@ -147,8 +151,8 @@ public class SaveActivity extends Activity implements LocationListener {
 
         SimpleAdapter adapter = new SimpleAdapter(this, wifiInfo, android.R.layout.simple_list_item_2, new String[] {"SSID", "BSSID"}, new int[] {android.R.id.text1, android.R.id.text2});
 
-        ListView wifiList = (ListView)findViewById(R.id.wifi);
-        wifiList.setAdapter(adapter);
+        Spinner s = (Spinner)this.findViewById(R.id.test);
+        s.setAdapter(adapter);
 
 	}
 
@@ -185,7 +189,7 @@ public class SaveActivity extends Activity implements LocationListener {
 
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, gps);
 
-		ListView gpsList = (ListView) findViewById(R.id.fileList);
+		ListView gpsList = (ListView) findViewById(R.id.gpsList);
 		gpsList.setAdapter(adapter);
 
 	}
