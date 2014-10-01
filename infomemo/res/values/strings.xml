@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">InfoMemo</string>
+    <string name="action_settings">Settings</string>
+    <string name="b_new">新規</string>
+    <string name="t_fileName">◆ファイル名</string>
+    <string name="t_wifi">◆Wi-Fi情報</string>
+    <string name="b_save">保存</string>
+    <string name="t_gps">◆位置情報</string>
+    <string name="t_day">◆日時</string>
+    <string name="t_etc">◆備考欄</string>
+    <string name="t_fileList">◆ファイル一覧</string>
+    <string name="deho">&quot;&quot;</string>
+
+</resources>
