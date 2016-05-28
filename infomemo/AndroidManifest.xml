@@ -8,13 +8,15 @@
         android:minSdkVersion="15"
         android:targetSdkVersion="20" />
 
+    <!-- Wi-Fi取り扱い -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
 
-
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"></uses-permission>
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"></uses-permission>
-
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"></uses-permission>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"></uses-permission>
+    <!-- 位置情報取り扱い -->
+    <!-- ネットワークからの位置情報取得する時に必須なもの -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- 位置情報取り扱い（高精度　※GPS, cell, towers, Wi-Fi） -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 
     <application
         android:allowBackup="true"
